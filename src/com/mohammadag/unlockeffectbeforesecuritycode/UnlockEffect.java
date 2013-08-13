@@ -26,7 +26,7 @@ public class UnlockEffect implements IXposedHookLoadPackage {
 	@Override
 	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
 		if (lpparam.packageName.equals("com.android.settings")) {
-			hookSettingsPackage(lpparam);
+			//hookSettingsPackage(lpparam);
 			return;
 		}
 		
@@ -98,7 +98,7 @@ public class UnlockEffect implements IXposedHookLoadPackage {
 			}
 		});
 	}
-
+/*
 	private void hookSettingsPackage(LoadPackageParam lpparam) throws NoSuchMethodException {	
 		final Class<?> lockscreenMenuSettings = findClass("com.android.settings.LockscreenMenuSettings", lpparam.classLoader);
 		final Method createPreferenceHierarchy = XposedHelpers.findMethodBestMatch(lockscreenMenuSettings, "createPreferenceHierarchy");
@@ -147,6 +147,7 @@ public class UnlockEffect implements IXposedHookLoadPackage {
 			}
 		});
 	}
+	*/
 	
 	
 
