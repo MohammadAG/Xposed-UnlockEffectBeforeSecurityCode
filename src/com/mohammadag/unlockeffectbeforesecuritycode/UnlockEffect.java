@@ -22,16 +22,16 @@ public class UnlockEffect implements IXposedHookLoadPackage {
 			return;
 		}
 		
-		if (!lpparam.packageName.equals("android"))
+		if (!lpparam.packageName.equals("com.android.keyguard"))
 			return;
 		
-		final Class<?> keyguardUpdateMonitor = findClass("com.android.internal.policy.impl.keyguard.KeyguardUpdateMonitor", lpparam.classLoader);
-		final Class<?> securityModeEnum = findClass("com.android.internal.policy.impl.keyguard.KeyguardSecurityModel$SecurityMode", lpparam.classLoader);
-		final Class<?> keyguardEffectViewClass = findClass("com.android.internal.policy.impl.keyguard.sec.KeyguardEffectView", lpparam.classLoader);
+		final Class<?> keyguardUpdateMonitor = findClass("com.android.keyguard.KeyguardUpdateMonitor", lpparam.classLoader);
+		final Class<?> securityModeEnum = findClass("com.android.keyguard.KeyguardSecurityModel$SecurityMode", lpparam.classLoader);
+		final Class<?> keyguardEffectViewClass = findClass("com.android.keyguard.sec.KeyguardEffectViewMain", lpparam.classLoader);
 		//final Class<?> rippleUnlockView = findClass("com.android.internal.policy.impl.keyguard.sec.RippleUnlockView", lpparam.classLoader);
-		final Class<?> backgroundEnum = findClass("com.android.internal.policy.impl.keyguard.sec.KeyguardEffectView$Background", lpparam.classLoader);
-		final Class<?> foregroundEnum = findClass("com.android.internal.policy.impl.keyguard.sec.KeyguardEffectView$Foreground", lpparam.classLoader);
-		final Class<?> KeyguardHostView = findClass("com.android.internal.policy.impl.keyguard.KeyguardHostView", lpparam.classLoader);
+		final Class<?> backgroundEnum = findClass("com.android.keyguard.sec.KeyguardEffectViewMain$Background", lpparam.classLoader);
+		final Class<?> foregroundEnum = findClass("com.android.keyguard.sec.KeyguardEffectViewMain$Foreground", lpparam.classLoader);
+		final Class<?> KeyguardHostView = findClass("com.android.keyguard.KeyguardHostView", lpparam.classLoader);
 		
 		XposedHelpers.findAndHookMethod(KeyguardHostView, "showPrimarySecurityScreen", boolean.class, new XC_MethodHook() {
 			@Override
