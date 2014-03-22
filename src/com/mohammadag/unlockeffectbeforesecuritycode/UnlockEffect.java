@@ -22,16 +22,34 @@ public class UnlockEffect implements IXposedHookLoadPackage {
 			return;
 		}
 		
-		if (!lpparam.packageName.equals("android"))
+		String packageName, javaPkg, keyguardUpdateMonitorName, securityModeEnumName, keyguardEffectViewName;
+		String backgroundName, foregroundName;
+		
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+			packageName = "com.android.keyguard";
+			javaPkg = packageName;
+			keyguardEffectViewName = javaPkg + ".sec.KeyguardEffectViewMain";
+		} else {
+			packageName = "android";
+			javaPkg = "com.android.internal.policy.impl.keyguard";
+			keyguardEffectViewName = javaPkg + "sec.KeyguardEffectView";
+		}
+		
+		keyguardUpdateMonitorName = javaPkg + ".KeyguardUpdateMonitor";
+		securityModeEnumName = javaPkg + ".KeyguardSecurityModel$SecurityMode";
+		backgroundName = keyguardEffectViewName + "$Background";
+		foregroundName = keyguardEffectViewName + "$Foreground";
+		
+		if (!lpparam.packageName.equals(packageName))
 			return;
 		
-		final Class<?> keyguardUpdateMonitor = findClass("com.android.internal.policy.impl.keyguard.KeyguardUpdateMonitor", lpparam.classLoader);
-		final Class<?> securityModeEnum = findClass("com.android.internal.policy.impl.keyguard.KeyguardSecurityModel$SecurityMode", lpparam.classLoader);
-		final Class<?> keyguardEffectViewClass = findClass("com.android.internal.policy.impl.keyguard.sec.KeyguardEffectView", lpparam.classLoader);
+		final Class<?> keyguardUpdateMonitor = findClass(keyguardUpdateMonitorName, lpparam.classLoader);
+		final Class<?> securityModeEnum = findClass(securityModeEnumName, lpparam.classLoader);
+		final Class<?> keyguardEffectViewClass = findClass(keyguardEffectViewName, lpparam.classLoader);
 		//final Class<?> rippleUnlockView = findClass("com.android.internal.policy.impl.keyguard.sec.RippleUnlockView", lpparam.classLoader);
-		final Class<?> backgroundEnum = findClass("com.android.internal.policy.impl.keyguard.sec.KeyguardEffectView$Background", lpparam.classLoader);
-		final Class<?> foregroundEnum = findClass("com.android.internal.policy.impl.keyguard.sec.KeyguardEffectView$Foreground", lpparam.classLoader);
-		final Class<?> KeyguardHostView = findClass("com.android.internal.policy.impl.keyguard.KeyguardHostView", lpparam.classLoader);
+		final Class<?> backgroundEnum = findClass(backgroundName, lpparam.classLoader);
+		final Class<?> foregroundEnum = findClass(foregroundName, lpparam.classLoader);
+		final Class<?> KeyguardHostView = findClass(javaPkg + ".KeyguardHostView", lpparam.classLoader);
 		
 		XposedHelpers.findAndHookMethod(KeyguardHostView, "showPrimarySecurityScreen", boolean.class, new XC_MethodHook() {
 			@Override
