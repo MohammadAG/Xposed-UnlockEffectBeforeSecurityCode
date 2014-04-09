@@ -32,7 +32,7 @@ public class UnlockEffect implements IXposedHookLoadPackage {
 		} else {
 			packageName = "android";
 			javaPkg = "com.android.internal.policy.impl.keyguard";
-			keyguardEffectViewName = javaPkg + "sec.KeyguardEffectView";
+			keyguardEffectViewName = javaPkg + ".sec.KeyguardEffectView";
 		}
 
 		keyguardUpdateMonitorName = javaPkg + ".KeyguardUpdateMonitor";
