@@ -87,6 +87,10 @@ public class UnlockEffect implements IXposedHookLoadPackage {
 				}
 
 				// 0 = circle, 1 = ripple, 2 = light
+				// 3 = particule effect for SGS4 from SGS5
+				// Manual edit system.db of Storage Parameters with sqlite ed. 
+				// and add 3 to the system->lockscreen_ripple_effect value
+				// Need some help for better integration.
 				if (effect == 0) {
 					XposedHelpers.callMethod(param.thisObject, "makeForeground", getStaticObjectField(foregroundEnum, "circle"));
 					Object mForegroundView = getObjectField(param.thisObject, "mForegroundView");
@@ -98,6 +102,11 @@ public class UnlockEffect implements IXposedHookLoadPackage {
 					XposedHelpers.callMethod(param.thisObject, "makeBackground", getStaticObjectField(backgroundEnum, "ripple"));
 					XposedHelpers.callMethod(mBackgroundView, "show");
 				} else if (effect == 2) {
+					XposedHelpers.callMethod(param.thisObject, "makeForeground", getStaticObjectField(foregroundEnum, "lens"));
+					Object mForegroundView = getObjectField(param.thisObject, "mForegroundView");
+					XposedHelpers.callMethod(mForegroundView, "show");
+					XposedHelpers.callMethod(param.thisObject, "makeBackground", getStaticObjectField(backgroundEnum, "wallpaper"));
+				} else if (effect == 3) {
 					XposedHelpers.callMethod(param.thisObject, "makeForeground", getStaticObjectField(foregroundEnum, "lens"));
 					Object mForegroundView = getObjectField(param.thisObject, "mForegroundView");
 					XposedHelpers.callMethod(mForegroundView, "show");
